@@ -40,20 +40,23 @@ train_data.Miss[train_data.Miss != 1] = 0
 train_data['Other']=1-(train_data.Mr+train_data.Mrs+train_data.Miss+train_data.Master)
 
 
+#Age feature preprocessing
+    #Calculating age mean by title category
+MrAge=train_data.Age[train_data.Mr==1].mean()
+MasterAge=train_data.Age[train_data.Master==1].mean()
+MrsAge=train_data.Age[train_data.Mrs==1].mean()
+MissAge=train_data.Age[train_data.Miss==1].mean()
+OtherAge=train_data.Age[train_data.Other==1].mean()
+
+    #Filling missing values of Age by title category
+train_data.Age[train_data.Age.isnull().any(axis=0) and train_data.Mr==1]=MrAge
+train_data.Age[train_data.Age.isnull().any(axis=0) and train_data.Mrs==1]=MrsAge
+train_data.Age[train_data.Age.isnull().any(axis=0) and train_data.Miss==1]=MissAge
+train_data.Age[train_data.Age.isnull().any(axis=0) and train_data.Master==1]=MasterAge
+train_data.Age[train_data.Age.isnull().any(axis=0) and train_data.Other==1]=OtherAge
+
 #dataset description
 d = train_data.describe()
-
-#Filling missing values of Age
-means_by_title = train_data[['Title', 'Age']].groupby('Title', sort= False).mean()
-print(means_by_title)
-
-features=['PassengerId','Name','Age']
-
-temp = train_data[features]      # Copying ages data with Id
-nan_rows = temp[temp.isnull().any(axis=1)]
-print(nan_rows.loc[:, ['Age']])
-
-
 
 
 print(pd.crosstab(train_data['Title'], train_data['Sex']))
