@@ -55,6 +55,24 @@ train_data.Age[train_data.Age.isnull().any(axis=0) and train_data.Miss==1]=MissA
 train_data.Age[train_data.Age.isnull().any(axis=0) and train_data.Master==1]=MasterAge
 train_data.Age[train_data.Age.isnull().any(axis=0) and train_data.Other==1]=OtherAge
 
+#Embarked Feature 
+    #filling nan with S( less impact on survival rate)
+train_data['Embarked']=train_data['Embarked'].fillna('S')
+
+    #Making Embarked categories
+    #Embarked_S
+train_data['Embarked_S']=train_data.Embarked[train_data.Embarked== 'S']
+train_data.Embarked_S[train_data.Embarked_S == 'S'] = 1
+train_data.Embarked_S[train_data.Embarked_S != 1] = 0
+     #Embarked_Q
+train_data['Embarked_Q']=train_data.Embarked[train_data.Embarked == 'Q']
+train_data.Embarked_Q[train_data.Embarked_Q == 'Q'] = 1
+train_data.Embarked_Q[train_data.Embarked_Q != 1] = 0
+     #Embarked_S
+train_data['Embarked_C']=train_data.Embarked[train_data.Embarked == 'C']
+train_data.Embarked_C[train_data.Embarked_C == 'C'] = 1
+train_data.Embarked_C[train_data.Embarked_C != 1] = 0
+
 #dataset description
 d = train_data.describe()
 
