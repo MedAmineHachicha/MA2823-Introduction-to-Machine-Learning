@@ -19,6 +19,26 @@ train_data['Title'] = train_data['Title'].replace('Mlle', 'Miss')
 train_data['Title'] = train_data['Title'].replace('Ms', 'Miss')
 train_data['Title'] = train_data['Title'].replace('Mme', 'Mrs')
 
+#Making title categories
+    #Mr Category
+train_data['Mr']=train_data.Title[train_data.Title == 'Mr']
+train_data.Mr[train_data.Mr == 'Mr'] = 1
+train_data.Mr[train_data.Mr != 1] = 0
+    #Mrs Category
+train_data['Mrs']=train_data.Title[train_data.Title == 'Mrs']
+train_data.Mrs[train_data.Mrs == 'Mrs'] = 1
+train_data.Mrs[train_data.Mrs != 1] = 0
+    #Master Category
+train_data['Master']=train_data.Title[train_data.Title == 'Master']
+train_data.Master[train_data.Master == 'Master'] = 1
+train_data.Master[train_data.Master != 1] = 0
+    #Miss Category
+train_data['Miss']=train_data.Title[train_data.Title == 'Miss']
+train_data.Miss[train_data.Miss == 'Miss'] = 1
+train_data.Miss[train_data.Miss != 1] = 0
+    #Others
+train_data['Other']=1-(train_data.Mr+train_data.Mrs+train_data.Miss+train_data.Master)
+
 
 #dataset description
 d = train_data.describe()
