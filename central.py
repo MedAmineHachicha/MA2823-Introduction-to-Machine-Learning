@@ -14,7 +14,10 @@ train_data.Sex[train_data.Sex == 'male'] = 0
 train_data.Sex[train_data.Sex == 'female'] = 1
 
 #adding column for Title
-train_data['Title'] = train_data.Name.str.extract('([A-Za-z]+)\.', expand = True)
+train_data['Title'] = train_data['Title'].replace('Mlle', 'Miss')
+train_data['Title'] = train_data['Title'].replace('Ms', 'Miss')
+train_data['Title'] = train_data['Title'].replace('Mme', 'Mrs')train_data['Title'] = train_data.Name.str.extract('([A-Za-z]+)\.', expand = True)
+
 
 #dataset description
 d = train_data.describe()
