@@ -112,6 +112,24 @@ Y_pred=clf.decision_function(X_test)
 fpr,tpr,_ = roc_curve(Y_test,Y_pred)
 roc_auc = auc(fpr,tpr) #accuracy
 
+#K-Nearest neighbors 
+npX = np.array(train_data[selected_features]).copy()
+npy = np.array(train_data['Survived']).copy()
+#Hyperparameter Tuning  
+K=[1,2,3,4,5,6,7,8,9,10,11,12,13]
+test_errors=[] 
+for j in range(len(K)):
+    clf_kn=KNeighborsClassifier(K[j])
+    KNscore= cross_val_score(clf_kn, npX, npy, scoring = 'accuracy', cv = 10, n_jobs = -1).mean()
+    test_errors.append(1-KNscore)
+#Plot test error vs hyperparameter
+plt.plot(K, test_errors)
+plt.title("Test error vs. Nearest neighbors")
+plt.ylabel("Test error")
+plt.xlabel("Nearest neighbors")
+plt.show()
+
+
 #Filling predicted labels into csv file
 testId=test_data['PassengerId'].values
 with open('results.csv', 'w') as csvfile:
