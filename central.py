@@ -245,7 +245,7 @@ def cross_validation(k,X,Y,estimator):
     from sklearn.metrics import roc_curve, auc
     max_accuracy=0
     for i in range(k):
-        X_train,X_test,Y_train,Y_test= train_test_split(X,Y, test_size=1/k, random_state=0)
+        X_train,X_test,Y_train,Y_test= train_test_split(X,Y, test_size=1/k, random_state=1)
         selected_features=features_selection_RFE(estimator,X_train,Y_train)
         new_X_train=X_train[selected_features]
         new_X_test=X_test[selected_features]
