@@ -83,19 +83,12 @@ print(pd.crosstab(train_data['Title'], train_data['Survived']))
 # calculating means
 
 
-#Logistic Regression
+
 features=['Age','Embarked_S','Embarked_Q','Embarked_C','Other','Mr','Mrs','Miss','Master','Fare','SibSp','Parch','Sex','Pclass']
 X = train_data[features].values
 Y = train_data['Survived'].values
-X = test_data[features].values
-Y = test_data['Survived'].values
-clf = LogisticRegression().fit(X, Y)
-Y_pred=clf.decision_function(X_test)
-fpr,tpr,_ = roc_curve(Y_test,Y_pred)
-roc_auc = auc(fpr,tpr)
 
 #Features Selection RFE with cross-validation 
-from sklearn.model_selection import StratifiedKFold
 from sklearn.feature_selection import RFECV
 from sklearn.svm import SVR
 estimator = SVR(kernel="linear")
@@ -106,5 +99,18 @@ for i in range(len(features)):
     if Selector.support_[i]==True:
         selected_features.append(features[i])
 print(selected_features)
+
+
+
+#Logistic Regression
+X = train_data[selected_features].values
+Y = train_data['Survived'].values
+X_test = test_data[selected_features].values
+Y_test= test_data['Survived'].values
+clf = LogisticRegression().fit(X, Y)
+Y_pred=clf.decision_function(X_test)
+fpr,tpr,_ = roc_curve(Y_test,Y_pred)
+roc_auc = auc(fpr,tpr) #accuracy
+
 
 
