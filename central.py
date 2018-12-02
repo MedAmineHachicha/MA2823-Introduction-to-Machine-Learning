@@ -113,6 +113,8 @@ print(selected_features)
 
 
 #Logistic Regression
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import roc_curve, auc
 X = train_data[selected_features].values
 Y = train_data['Survived'].values
 X_test = test_data[selected_features].values
