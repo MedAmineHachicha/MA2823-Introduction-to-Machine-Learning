@@ -96,56 +96,42 @@ print(pd.crosstab(train_data['Title'], train_data['Sex']))
 print(pd.crosstab(train_data['Title'], train_data['Survived']))
 
 
-
-
-features=['Age','Embarked_S','Embarked_Q','Embarked_C','Other','Mr','Mrs','Miss','Master','Fare','SibSp','Parch','Sex','Pclass','FamilyCateg']
+##############################################################
+###Features Selection RFE with the logistic regression estimator
+features=['FamilyCateg','Age','Embarked_S','Embarked_Q','Embarked_C','Other','Mr','Mrs','Miss','Master','Fare','SibSp','Parch','Sex','Pclass']
 X = train_data[features].values
 Y = train_data['Survived'].values
 
-#Features Selection RFE with cross-validation 
 from sklearn.feature_selection import RFECV
-from sklearn.svm import SVR
-estimator = SVR(kernel="linear")
-selector = RFECV(estimator, step=1, cv=5)
+from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import StratifiedKFold
+estimator = LogisticRegression()
+selector = RFECV(estimator, step=1, cv=StratifiedKFold(2) ,scoring='accuracy')
 selector = selector.fit(X, Y)
+print("Optimal number of features : %d" % selector.n_features_)
 selected_features=[]
 for i in range(len(features)):
     if selector.support_[i]==True:
         selected_features.append(features[i])
 print(selected_features)
-
+###########################################################""""
 
 #Variable to display final scores of the following models
 models=[]
 final_scores=[]
-"""
-hethi ken tekhdemch nahiwha
+
 #Logistic Regression
+
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import roc_curve, auc
 X = train_data[selected_features].values
 Y = train_data['Survived'].values
 X_test = test_data[selected_features].values
 Y_test= test_data['Survived'].values
 clf = LogisticRegression().fit(X, Y)
 Y_pred=clf.decision_function(X_test)
-fpr,tpr,_ = roc_curve(Y_test,Y_pred)
-roc_auc = auc(fpr,tpr) #accuracy
-    #Add model and score
+
 models.append('Logistic Regression')
 final_scores.append(roc_auc)
-"""
-#Logistic regression
-from sklearn.linear_model import LogisticRegression
-npX = np.array(train_data[selected_features]).copy()
-npy = np.array(train_data['Survived']).copy()
-clf_lr = LogisticRegression()
-score = cross_val_score(clf_lr, npX, npy, scoring = 'accuracy', cv = 10, n_jobs = -1).mean()
-
-    #Add model and score
-models.append('Logistic Regression')
-final_scores.append(score)
-
 
 #K-Nearest neighbors 
 from sklearn.neighbors import KNeighborsClassifier
