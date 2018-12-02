@@ -80,7 +80,6 @@ d = train_data.describe()
 print(pd.crosstab(train_data['Title'], train_data['Sex']))
 print(pd.crosstab(train_data['Title'], train_data['Survived']))
 
-# calculating means
 
 
 
