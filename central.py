@@ -56,7 +56,7 @@ train_data.loc[train_data.Master==1,'Age'] = train_data.loc[train_data.Master==1
 train_data.loc[train_data.Other==1,'Age'] = train_data.loc[train_data.Other==1,'Age'].fillna(OtherAge)
 
 
-#Embarked Feature 
+#Embarked Feature preprocessing
     #filling nan with S( less impact on survival rate)
 train_data['Embarked']=train_data['Embarked'].fillna('S')
 
@@ -73,6 +73,16 @@ train_data.Embarked_Q[train_data.Embarked_Q != 1] = 0
 train_data['Embarked_C']=train_data.Embarked[train_data.Embarked == 'C']
 train_data.Embarked_C[train_data.Embarked_C == 'C'] = 1
 train_data.Embarked_C[train_data.Embarked_C != 1] = 0
+
+#Adding family category features
+train_data['FamilyCateg']=train_data.SibSp+train_data.Parch
+sns.factorplot('FamilyCateg',data=train_data,kind='count',hue='Survived')
+
+train_data.FamilyCateg[train_data.FamilyCateg==0]=0
+train_data.FamilyCateg[train_data.FamilyCateg>0]=1
+train_data.FamilyCateg[train_data.FamilyCateg>3]=0
+sns.factorplot('FamilyCateg',data=train_data,kind='count',hue='Survived')
+
 
 #dataset description
 d = train_data.describe()
