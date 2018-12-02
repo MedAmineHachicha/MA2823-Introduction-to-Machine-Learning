@@ -94,7 +94,7 @@ print(pd.crosstab(train_data['Title'], train_data['Survived']))
 
 
 
-features=['Age','Embarked_S','Embarked_Q','Embarked_C','Other','Mr','Mrs','Miss','Master','Fare','SibSp','Parch','Sex','Pclass']
+features=['Age','Embarked_S','Embarked_Q','Embarked_C','Other','Mr','Mrs','Miss','Master','Fare','SibSp','Parch','Sex','Pclass','FamilyCateg']
 X = train_data[features].values
 Y = train_data['Survived'].values
 
@@ -103,10 +103,10 @@ from sklearn.feature_selection import RFECV
 from sklearn.svm import SVR
 estimator = SVR(kernel="linear")
 selector = RFECV(estimator, step=1, cv=5)
-selector = selector.fit(X, y)
+selector = selector.fit(X, Y)
 selected_features=[]
 for i in range(len(features)):
-    if Selector.support_[i]==True:
+    if selector.support_[i]==True:
         selected_features.append(features[i])
 print(selected_features)
 
@@ -126,6 +126,9 @@ clf = LogisticRegression().fit(X, Y)
 Y_pred=clf.decision_function(X_test)
 fpr,tpr,_ = roc_curve(Y_test,Y_pred)
 roc_auc = auc(fpr,tpr) #accuracy
+    #Add model and score
+models.append('Logistic Regression')
+final_scores.append(roc_auc)
 
 #K-Nearest neighbors 
 from sklearn.neighbors import KNeighborsClassifier
