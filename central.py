@@ -223,3 +223,43 @@ with open('results.csv', 'w') as csvfile:
     filewriter.writerow(['PassengerId','Survived'])
     for i in range(mtest):    
         filewriter.writerow([testId[i],int(predictedLabels[i])])
+
+##New
+features=['FamilyCateg','Age','Embarked_S','Embarked_Q','Embarked_C','Other','Mr','Mrs','Miss','Master','Fare','SibSp','Parch','Sex','Pclass']
+X = train_data[features]
+Y = train_data['Survived']
+
+def features_selection_RFE(estimator,X,Y):
+    from sklearn.feature_selection import RFECV
+    from sklearn.linear_model import LogisticRegression
+    from sklearn.model_selection import StratifiedKFold
+    selector = RFECV(estimator, step=1, cv=StratifiedKFold(2) ,scoring='accuracy')
+    selector = selector.fit(X,Y)
+    selected_features=[]
+    for i in range(len(features)):
+        if selector.support_[i]==True:
+            selected_features.append(features[i])
+    return(selected_features)
+   
+def cross_validation(k,X,Y,estimator):
+    from sklearn.metrics import roc_curve, auc
+    max_accuracy=0
+    for i in range(k):
+        X_train,X_test,Y_train,Y_test= train_test_split(X,Y, test_size=1/k, random_state=0)
+        selected_features=features_selection_RFE(estimator,X_train,Y_train)
+        new_X_train=X_train[selected_features]
+        new_X_test=X_test[selected_features]
+        estimator.fit(new_X_train,Y_train)
+        Y_pred_i=estimator.decision_function(new_X_test)
+        fpr,tpr,v = roc_curve(Y_test,Y_pred_i)
+        if max_accuracy < auc(fpr,tpr):
+            max_accuracy=auc(fpr,tpr)
+    return (max_accuracy)
+        
+#max of acccuracy with the logistic regression
+from sklearn.model_selection import train_test_split
+X = train_data[features]
+Y = train_data['Survived']
+estimator=LogisticRegression()
+print(cross_validation(30,X,Y,estimator))
+       
