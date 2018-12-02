@@ -199,7 +199,7 @@ for j in range(len(C)):
     clf_svm = SVC(C = C[j])
     SVMscore= cross_val_score(clf_svm, npX, npy, scoring = 'accuracy', cv = 10, n_jobs = -1).mean()
     if(SVMscore>max_accuracy_svm):
-        max_score_svm=SVMscore
+        max_accuracy_svm=SVMscore
         c=C[j]# hyperparameter
     test_errors_svm.append(1-SVMscore)
     
