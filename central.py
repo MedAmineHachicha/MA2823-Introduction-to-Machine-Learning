@@ -49,11 +49,12 @@ MissAge=train_data.Age[train_data.Miss==1].mean()
 OtherAge=train_data.Age[train_data.Other==1].mean()
 
     #Filling missing values of Age by title category
-train_data.Age[train_data.Age.isnull().any(axis=0) and train_data.Mr==1]=MrAge
-train_data.Age[train_data.Age.isnull().any(axis=0) and train_data.Mrs==1]=MrsAge
-train_data.Age[train_data.Age.isnull().any(axis=0) and train_data.Miss==1]=MissAge
-train_data.Age[train_data.Age.isnull().any(axis=0) and train_data.Master==1]=MasterAge
-train_data.Age[train_data.Age.isnull().any(axis=0) and train_data.Other==1]=OtherAge
+train_data.loc[train_data.Mr==1,'Age'] = train_data.loc[train_data.Mr==1,'Age'].fillna(MrAge)
+train_data.loc[train_data.Mrs==1,'Age'] = train_data.loc[train_data.Mrs==1,'Age'].fillna(MrsAge)
+train_data.loc[train_data.Miss==1,'Age'] = train_data.loc[train_data.Miss==1,'Age'].fillna(MissAge)
+train_data.loc[train_data.Master==1,'Age'] = train_data.loc[train_data.Master==1,'Age'].fillna(MasterAge)
+train_data.loc[train_data.Other==1,'Age'] = train_data.loc[train_data.Other==1,'Age'].fillna(OtherAge)
+
 
 #Embarked Feature 
     #filling nan with S( less impact on survival rate)
