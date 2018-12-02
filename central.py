@@ -118,7 +118,8 @@ print(selected_features)
 #Variable to display final scores of the following models
 models=[]
 final_scores=[]
-
+"""
+hethi ken tekhdemch nahiwha
 #Logistic Regression
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import roc_curve, auc
@@ -133,6 +134,18 @@ roc_auc = auc(fpr,tpr) #accuracy
     #Add model and score
 models.append('Logistic Regression')
 final_scores.append(roc_auc)
+"""
+#Logistic regression
+from sklearn.linear_model import LogisticRegression
+npX = np.array(train_data[selected_features]).copy()
+npy = np.array(train_data['Survived']).copy()
+clf_lr = LogisticRegression()
+score = cross_val_score(clf_lr, npX, npy, scoring = 'accuracy', cv = 10, n_jobs = -1).mean()
+
+    #Add model and score
+models.append('Logistic Regression')
+final_scores.append(score)
+
 
 #K-Nearest neighbors 
 from sklearn.neighbors import KNeighborsClassifier
