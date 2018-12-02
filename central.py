@@ -111,6 +111,9 @@ for i in range(len(features)):
 print(selected_features)
 
 
+#Variable to display final scores of the following models
+models=[]
+final_scores=[]
 
 #Logistic Regression
 from sklearn.linear_model import LogisticRegression
@@ -146,6 +149,9 @@ plt.title("Test error vs. Nearest neighbors")
 plt.ylabel("Test error")
 plt.xlabel("Nearest neighbors")
 plt.show()
+    #Add model and score
+models.append('KNeighbors')
+final_scores.append(max_accuracy_Knn)
 
 # Decision tree
 from sklearn.tree import DecisionTreeClassifier
@@ -169,6 +175,10 @@ plt.title("Test error vs. Decision Tree")
 plt.ylabel("Test error")
 plt.xlabel("tree depth")
 plt.show()
+    #Add model and score
+models.append('Decision Tree')
+final_scores.append(max_accuracy_DT)
+
 
 #SVM (Soft Margin SVM)
 from sklearn.svm import SVC
@@ -192,9 +202,14 @@ plt.title("Test error vs. SVM ")
 plt.ylabel("Test error")
 plt.xlabel("C parameter")
 plt.show()
+    #Add model and score
+models.append('SVM (Soft Margin)')
+final_scores.append(max_accuracy_svm)
 
-
-
+# Display scores for the different models 
+    #convert numpy array to pandas dataFrame
+print( pd.DataFrame(final_scores, index = models, columns = ['accuracy']).sort_values(by = 'accuracy',ascending = False))
+   
 #Filling predicted labels into csv file
 testId=test_data['PassengerId'].values
 with open('results.csv', 'w') as csvfile:
