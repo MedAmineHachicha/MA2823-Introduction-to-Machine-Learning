@@ -149,6 +149,9 @@ plt.xlabel("Nearest neighbors")
 plt.show()
 
 # Decision tree
+from sklearn.tree import DecisionTreeClassifier
+npX = np.array(train_data[selected_features]).copy()
+npy = np.array(train_data['Survived']).copy()
 #Hyperparameter Tuning
 D=[2,4,6,8,10,12,14,16]
 test_errors_DT=[] 
