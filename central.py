@@ -190,11 +190,11 @@ npy = np.array(train_data['Survived']).copy()
     #Hyperparameter C Tuning
 C=[0.5,1,2,4,6,8,10,20]
 test_errors_svm=[] 
-max_score_svm=0
+max_accuracy_svm=0
 for j in range(len(C)):
     clf_svm = SVC(C = C[j])
     SVMscore= cross_val_score(clf_svm, npX, npy, scoring = 'accuracy', cv = 10, n_jobs = -1).mean()
-    if(SVMscore>max_score_svm):
+    if(SVMscore>max_accuracy_svm):
         max_score_svm=SVMscore
         c=C[j]# hyperparameter
     test_errors_svm.append(1-SVMscore)
