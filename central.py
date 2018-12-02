@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 import math
-
+import seaborn as sns
 import sklearn
 
 train_data=pd.read_csv('train.csv', delimiter=',')
@@ -125,6 +125,7 @@ fpr,tpr,_ = roc_curve(Y_test,Y_pred)
 roc_auc = auc(fpr,tpr) #accuracy
 
 #K-Nearest neighbors 
+from sklearn.neighbors import KNeighborsClassifier
 npX = np.array(train_data[selected_features]).copy()
 npy = np.array(train_data['Survived']).copy()
 #Hyperparameter Tuning  
