@@ -130,18 +130,43 @@ npX = np.array(train_data[selected_features]).copy()
 npy = np.array(train_data['Survived']).copy()
 #Hyperparameter Tuning  
 K=[1,2,3,4,5,6,7,8,9,10,11,12,13]
-test_errors=[] 
+test_errors_Knn=[] 
+max_accuracy_Knn=0
 for j in range(len(K)):
     clf_kn=KNeighborsClassifier(K[j])
     KNscore= cross_val_score(clf_kn, npX, npy, scoring = 'accuracy', cv = 10, n_jobs = -1).mean()
-    test_errors.append(1-KNscore)
+    if(KNscore>max_accuracy_Knn):
+        max_accuracy_Knn=KNscore # accuracy with best hyperparameter
+        hp=K[j]# hyperparameter
+    test_errors_Knn.append(1-KNscore)
+    
+
 #Plot test error vs hyperparameter
-plt.plot(K, test_errors)
+plt.plot(K, test_errors_Knn)
 plt.title("Test error vs. Nearest neighbors")
 plt.ylabel("Test error")
 plt.xlabel("Nearest neighbors")
 plt.show()
 
+# Decision tree
+#Hyperparameter Tuning
+D=[2,4,6,8,10,12,14,16]
+test_errors_DT=[] 
+max_accuracy_DT=0
+for j in range(len(D)):
+    clf_dt = DecisionTreeClassifier(max_depth=D[j])
+    DTscore= cross_val_score(clf_dt, npX, npy, scoring = 'accuracy', cv = 10, n_jobs = -1).mean()
+    if(DTscore>max_accuracy_DT):
+        max_accuracy_DT=DTscore
+        depth=D[j]# hyperparameter
+    test_errors_DT.append(1-DTscore)
+
+#Plot test error vs hyperparameter tree depth
+plt.plot(D, test_errors_DT)
+plt.title("Test error vs. Decision Tree")
+plt.ylabel("Test error")
+plt.xlabel("tree depth")
+plt.show()
 
 #Filling predicted labels into csv file
 testId=test_data['PassengerId'].values
