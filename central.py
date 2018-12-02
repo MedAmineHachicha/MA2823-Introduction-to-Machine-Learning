@@ -112,5 +112,10 @@ Y_pred=clf.decision_function(X_test)
 fpr,tpr,_ = roc_curve(Y_test,Y_pred)
 roc_auc = auc(fpr,tpr) #accuracy
 
-
-
+#Filling predicted labels into csv file
+testId=test_data['PassengerId'].values
+with open('results.csv', 'w') as csvfile:
+    filewriter = csv.writer(csvfile, delimiter=',')
+    filewriter.writerow(['PassengerId','Survived'])
+    for i in range(mtest):    
+        filewriter.writerow([testId[i],int(predictedLabels[i])])
