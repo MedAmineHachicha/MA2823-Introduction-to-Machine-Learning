@@ -122,3 +122,16 @@ plt.legend(prop={'size': 10}, title = 'Positions')
 plt.title('Density Plot for Tackling')
 plt.xlabel('Player Attribute')
 plt.ylabel('Density')
+
+initial_features=['Height', 'Weight', 'AerialAbility',
+       'CommandOfArea', 'Communication', 'Handling', 'Kicking',
+       'OneOnOnes', 'Reflexes', 'RushingOut', 'TendencyToPunch', 'Throwing',
+       'Corners', 'Crossing', 'Dribbling', 'Finishing', 'FirstTouch',
+       'Freekicks', 'Heading', 'LongShots', 'Longthrows', 'Marking', 'Passing',
+       'PenaltyTaking', 'Tackling', 'Technique', 'Aggression', 'Anticipation',
+       'Bravery', 'Composure', 'Concentration', 'Vision', 'Decisions',
+       'Flair', 'Leadership', 'OffTheBall', 'Positioning',
+       'Teamwork', 'Workrate', 'Acceleration', 'Agility', 'Balance', 'Jumping',
+       'LeftFoot', 'NaturalFitness', 'Pace', 'RightFoot', 'Stamina',
+       'Strength', 'Consistency', 'Dirtiness',
+       'Versatility']
